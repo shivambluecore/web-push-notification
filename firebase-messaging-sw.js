@@ -50,3 +50,15 @@ function getClientToken() {
     // sendPushNotification(token);
   })
 }
+
+self.addEventListener('push', function (event) {
+  var data = event.data.json();
+  
+  const title = data.Title;
+  data.Data.actions = data.Actions;
+  const options = {
+    body: data.Message,
+    data: data.Data
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
